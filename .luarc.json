@@ -1,0 +1,43 @@
+{
+    "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+    "runtime": {
+        "version": "Lua 5.1",
+        "special": {
+            "love.filesystem.load": "loadfile"
+        }
+    },
+    "diagnostics": {
+        "enable": true,
+        "globals": [
+            "inspect",
+            "hs",
+            "vim",
+            "dev",
+            "it",
+            "describe",
+            "before_each",
+            "after_each",
+            "lfs"
+        ],
+        "disable": [
+            "lowercase-global"
+        ],
+        "workspaceEvent": "None",
+        "workspaceRate": 0
+    },
+    "completion": {
+        "keywordSnippet": "Disable"
+    },
+    "workspace": {
+        "library": [
+            "${3rd}/love2d/library",
+            "${3rd}/lfs/library"
+        ],
+        "userThirdParty": [
+            "~/git/scripts/lua",
+            "~/git/scripts/lua/dev"
+        ],
+        "maxPreload": 2000,
+        "preloadFileSize": 1000
+    }
+}

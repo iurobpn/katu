@@ -1,0 +1,23 @@
+{
+    "excepts": [
+    ],
+    "initialized": true,
+    "main_root": "",
+    "query_user_root": false,
+    "root_dir": "/home/gagarin/git/my/home/katu",
+    "root_files": [
+        ".root",
+        "root.tex"
+    ],
+    "root_priority": [
+        "main_root",
+        "git",
+        "root_files"
+    ],
+    "settings_file": ".settings.json",
+    "tables": {
+        "qfloat": {
+            "last_file": ""
+        }
+    }
+}
