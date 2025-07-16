@@ -4,6 +4,7 @@ if _G.katuLoaded then
 end
 
 _G.katuLoaded = true
+-- require('katu')
 
 -- Useful if you want your plugin to be compatible with older (<0.7) neovim versions
 -- if vim.fn.has("nvim-0.7") == 0 then
