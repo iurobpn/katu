@@ -1,4 +1,4 @@
-local Window = require('dev.nvim.ui.float').Window
+local Window = require('katu.nvim.ui.float').Window
 local views = {}
 
 function views.new()
@@ -187,9 +187,9 @@ function views.scratch(content, ...)
     return win
 end
 
-vim.api.nvim_create_user_command("WinNew",         'lua dev.nvim.ui.views.new()',          {})
-vim.api.nvim_create_user_command("WinOpenCurrent", 'lua dev.nvim.ui.views.open_current()', {})
-vim.api.nvim_create_user_command("Messages",    'lua dev.nvim.ui.views.messages()',     {})
+vim.api.nvim_create_user_command("WinNew",         'lua katu.nvim.ui.views.new()',          {})
+vim.api.nvim_create_user_command("WinOpenCurrent", 'lua katu.nvim.ui.views.open_current()', {})
+vim.api.nvim_create_user_command("Messages",    'lua katu.nvim.ui.views.messages()',     {})
 
 vim.api.nvim_set_keymap('n', '<LocalLeader>n', ':WinNew<CR>',         { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'gç',             ':WinOpenCurrent<CR>', { noremap = true, silent = true })

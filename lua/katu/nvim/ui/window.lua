@@ -1,4 +1,4 @@
-local Window = require('dev.nvim.ui.float').Window
+local Window = require('katu.nvim.ui.float').Window
 local utils = require'utils'
 
 local Float = {

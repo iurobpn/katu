@@ -1,4 +1,4 @@
-require('dev.nvim.ui.float')
+require('katu.nvim.ui.float')
 function test_pos()
     local win = Window()
     table.insert(wins,win)

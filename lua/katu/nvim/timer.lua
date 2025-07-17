@@ -193,8 +193,8 @@ function countdown.start(duration, description, callback)
     local row = math.floor(1) -- vim.o.lines
     local col = math.floor((vim.o.columns - width) / 2)
 
-    vim.api.nvim_set_hl(0, "MyFloatBorder", { fg = dev.color.bright_blue, bg = "None" }) -- bright_red for the border
-    vim.api.nvim_set_hl(0, "FloatContent", { fg = dev.color.bright_blue, bg = "None" }) -- bright_red for the border
+    vim.api.nvim_set_hl(0, "MyFloatBorder", { fg = katu.color.bright_blue, bg = "None" }) -- bright_red for the border
+    vim.api.nvim_set_hl(0, "FloatContent", { fg = katu.color.bright_blue, bg = "None" }) -- bright_red for the border
 
     -- Create a floating window
     countdown.win = vim.api.nvim_open_win(buf, true, {
@@ -365,8 +365,8 @@ function countdown.update_popup(callback)
     -- Change only the foreground color in the last 30 seconds (blink every half second)
     if countdown.time_left <= 30 then
         if blink_state then
-            vim.api.nvim_set_hl(0, "MyFloatText", { fg = dev.color.bright_red, bg = "None" }) -- bright_red for text
-            vim.api.nvim_set_hl(0, "MyFloatBorder", { fg = dev.color.bright_red, bg = "None" }) -- bright_red for text
+            vim.api.nvim_set_hl(0, "MyFloatText", { fg = katu.color.bright_red, bg = "None" }) -- bright_red for text
+            vim.api.nvim_set_hl(0, "MyFloatBorder", { fg = katu.color.bright_red, bg = "None" }) -- bright_red for text
         else
             vim.api.nvim_set_hl(0, "MyFloatText", { fg = "None", bg = "None" }) -- invisible text
             vim.api.nvim_set_hl(0, "MyFloatBorder", { fg = "None", bg = "None" }) -- bright_red for text
@@ -382,8 +382,8 @@ function countdown.update_popup(callback)
         countdown.timer:close()
         countdown.timer = nil
 
-        vim.api.nvim_set_hl(0, "MyFloatText", { fg = dev.color.bright_red, bg = "None" }) -- bright_red for text
-        vim.api.nvim_set_hl(0, "MyFloatBorder", { fg = dev.color.bright_red, bg = "None" }) -- bright_red for text
+        vim.api.nvim_set_hl(0, "MyFloatText", { fg = katu.color.bright_red, bg = "None" }) -- bright_red for text
+        vim.api.nvim_set_hl(0, "MyFloatBorder", { fg = katu.color.bright_red, bg = "None" }) -- bright_red for text
         vim.api.nvim_set_option_value('winhl', 'NormalFloat:MyFloatText,FloatBorder:MyFloatBorder', { scope = "local", win = countdown.win })
         -- vim.api.nvim_win_close(countdown.win, true)
         if callback then

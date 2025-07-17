@@ -5,9 +5,9 @@ end
 local tbl = require('utils.tbl')
 require('class')
 local utils = require('utils')
--- local Log = require('dev.lua.log').Log
+-- local Log = require('katu.lua.log').Log
 
-local Buffer = require('dev.nvim.utils').Buffer
+local Buffer = require('katu.nvim.utils').Buffer
 
 local fmt = string.format
 
@@ -568,7 +568,7 @@ end
 function Window:set_buf_links(map_file_line)
     self.map_file_line = map_file_line
     vim.api.nvim_buf_set_keymap(self.buf, 'n', '<CR>',
-        ':lua dev.nvim.ui.float.Window.open_link()<CR>',
+        ':lua katu.nvim.ui.float.Window.open_link()<CR>',
         { noremap = true, silent = true }
     )
 

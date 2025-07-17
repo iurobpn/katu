@@ -1,16 +1,16 @@
--- submodules of dev.lua
+-- submodules of katu.lua
 -- require'utils.lua' -- empty
 
 local lua = {
-    proj = require'dev.lua.project',
+    proj = require'katu.lua.project',
 }
 _G.proj = lua.proj
 vim.g.proj = lua.proj
 vim.g.proj.init()
 
-lua.sqlite    = require'dev.lua.sqlite'
-lua.log       = require'dev.lua.log'
-lua.zotero    = require'dev.lua.zotero'
-lua.templater = require'dev.lua.templater'
+lua.sqlite    = require'katu.lua.sqlite'
+lua.log       = require'katu.lua.log'
+lua.zotero    = require'katu.lua.zotero'
+lua.templater = require'katu.lua.templater'
 
 return lua

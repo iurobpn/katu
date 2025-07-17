@@ -7,7 +7,7 @@
 
 -- PRAGMA database_list;
 --
-require('dev.lua.sqlite')
+require('katu.lua.sqlite')
 local M = {
     filename = 'zotero.sqlite',
     path = '/home/gagarin/Koofr/zotero/',

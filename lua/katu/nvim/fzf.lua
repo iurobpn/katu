@@ -104,7 +104,7 @@ function M.run(arg)
     local source, sink
 
     local options
-    if arg ~=nil then
+    if arg ~= nil then
         source = arg.source
         sink = arg.sink
         options = arg.options
@@ -112,7 +112,7 @@ function M.run(arg)
     if not source then
         source = 'fd . --type f --hidden --follow --exclude .git --exclude .gtags'
     end
-    if arg.source_append then
+    if arg ~= nil and type(arg.source_append) == 'string' then
         source = source .. ' ' .. arg.source_append
     end
 
@@ -121,12 +121,13 @@ function M.run(arg)
     --         vim.cmd('edit ' .. selected)
     --     end
     -- end
-    if not options then
+    if options == nil or options == '' then
         options = '--prompt="select> "'
     end
 
     return vim.fn['fzf#run']({source = source, sink = sink, options = options})
 end
+
 vim.api.nvim_create_user_command(
     'ListFilesFromBranch',
     function(opts)

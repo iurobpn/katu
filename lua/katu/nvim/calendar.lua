@@ -1,5 +1,5 @@
 local utils = require('utils')
-local tbl = require('dev.lua.tbl')
+local tbl = require('katu.lua.tbl')
 local M = {}
 M.month_names = {
     "January", "February", "March", "April", "May", "June",

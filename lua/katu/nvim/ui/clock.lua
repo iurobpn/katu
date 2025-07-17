@@ -1,4 +1,4 @@
-local views = require('dev.nvim.ui.views')
+local views = require('katu.nvim.ui.views')
 local Clock = {
     window = nil
 }
