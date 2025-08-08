@@ -1,5 +1,5 @@
 local katu = {
-    color = vim.g.gruvbox_palette,
+    color = require'katu.gruvbox-colors',
     lua = require('katu.lua'),
     nvim = require('katu.nvim'),
 }

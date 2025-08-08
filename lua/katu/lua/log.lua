@@ -1,7 +1,7 @@
-require'utils.time'
-local gruvbox = require'gruvbox-colors'
+require'katu.utils.time'
+local gruvbox = require'katu.gruvbox-colors'
 require'debug'
-require'class'
+require'katu.utils.class'
 
 local Level = {
     trace = 1,
@@ -85,7 +85,7 @@ function Log:format(message, level, color)
     local log_mod = fmt(" %s%-10s%s%s", self.module_color, log_module, gruvbox.reset, self.color)
     local log_suffix = fmt(" %s%s", message, gruvbox.reset)
     local info = debug.getinfo(3)
-    local utils = require'utils'
+    local utils = require'katu.utils'
     local filename = utils.split(info.short_src, '/')
     filename = filename[#filename]
     local log_debug = fmt(' %s[%s:%d] %s', self.colors["debug"], filename , info.currentline, gruvbox.reset)

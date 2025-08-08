@@ -1,6 +1,6 @@
 local sqlite3 = require("lsqlite3")
 
-require('class')
+require('katu.utils.class')
 
 local Sql = {filename = ''}
 

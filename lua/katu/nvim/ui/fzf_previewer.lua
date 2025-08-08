@@ -7,8 +7,8 @@
 -- local fzf_lua = require("fzf-lua")
 local builtin = require("fzf-lua.previewer.builtin")
 
-local utils = require("utils")
-local fs = require("utils.fs")
+local utils = require("katu.utils")
+local fs = require("katu.utils.fs")
 
 local M = {}
 

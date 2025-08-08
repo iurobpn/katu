@@ -56,7 +56,7 @@ function Project.init()
         local s = fd:read('*a')
         local settings = nil
         if s and s ~= '' then
-            settings = json.decode(s)
+            settings = require'cjson'.decode(s)
             for k, v in pairs(settings) do
                 Project[k] = v
             end
@@ -78,7 +78,7 @@ function Project.save()
         return
     end
 
-    local utils = require('utils')
+    local utils = require('katu.utils')
     local filename = Project.root_dir .. '/' .. Project.settings_file
     local settings = {}
     for k, v in pairs(Project) do
@@ -169,7 +169,7 @@ function Project.get(name)
         local fd = io.open(filename, 'r')
         if fd then
             local s = fd:read('*a')
-            local tab = json.decode(s)
+            local tab = require'utils.tbl'.from_json(s)
             Project.tables = tab
             fd:close()
             return Project.tables[name]

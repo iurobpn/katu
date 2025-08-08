@@ -1,8 +1,8 @@
 local Path = require("plenary.path")
 local lfs = require'lfs'
-local fs = require'utils.fs'
+local fs = require'katu.utils.fs'
 local json = require "dkjson"  -- dkjson for JSON parsing
-local utils = require('utils')
+local utils = require('katu.utils')
 local pprint = utils.pprint
 
 local M = {

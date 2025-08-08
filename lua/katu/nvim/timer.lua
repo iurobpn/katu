@@ -246,7 +246,7 @@ function timer_plugin.TimerStart(task_id)
         vim.notify("task ID provided: " .. task_id)
         current_task = tasks[task_id]
     end
-    require'utils'.pprint(current_task, 'current_task: ')
+    require'katu.utils'.pprint(current_task, 'current_task: ')
     -- Log start time
     table.insert(logs, {
         task_id = task_id,
@@ -348,7 +348,7 @@ end
 local blink_state = false
 
 function countdown.update_popup(callback)
-    require'utils'.pprint(countdown, 'countdown: ')
+    require'katu.utils'.pprint(countdown, 'countdown: ')
     if not countdown.win or not vim.api.nvim_win_is_valid(countdown.win) then
         return
     end

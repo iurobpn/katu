@@ -1,5 +1,5 @@
 local templater = require 'lustache'
-local fs = require'utils.fs'
+local fs = require'katu.utils.fs'
 
 local M = {
     templater = templater,
@@ -169,7 +169,7 @@ function M.expand(text)
 end
 
 function M.de_escape(text)
-    local lines = require'utils'.split2(text, '\n')
+    local lines = require'katu.utils'.split2(text, '\n')
     for i, line in ipairs(lines) do
         local line, count = line:gsub('%[%[(jq.?:.*)%]%]', '{{%1}}')
         if count > 0 then
@@ -181,7 +181,7 @@ function M.de_escape(text)
 end
 
 function M.pre_escape(text)
-    local lines = require'utils'.split2(text, '\n')
+    local lines = require'katu.utils'.split2(text, '\n')
     for i, line in ipairs(lines) do
         local line, count = line:gsub('{{(jq.?:.*)}}', '[[%1]]')
         if count > 0 then
@@ -216,7 +216,7 @@ function M.get_expanded_file(template_file)
     local file_content = file:read("*all")
     file:close()
 
-    local content = require'utils'.split2(M.expand(file_content), '\n')
+    local content = require'katu.utils'.split2(M.expand(file_content), '\n')
     if type(content) == 'string' then
         content = {content}
     end
@@ -249,7 +249,7 @@ function M.expand_file(template_file)
     local file_content = file:read("*all")
     file:close()
 
-    local content = require'utils'.split2(M.expand(file_content), '\n')
+    local content = require'katu.utils'.split2(M.expand(file_content), '\n')
     if type(content) == 'string' then
         content = {content}
     end

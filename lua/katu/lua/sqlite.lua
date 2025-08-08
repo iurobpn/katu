@@ -1,5 +1,5 @@
 local luasql = require("luasql.sqlite3")
-require('class')
+require('katu.utils.class')
 
 local Sql = {filename = ''}
 

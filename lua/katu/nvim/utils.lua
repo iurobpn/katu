@@ -1,4 +1,3 @@
-local utils = require('utils')
 local M = {}
 
 ---get file:line context

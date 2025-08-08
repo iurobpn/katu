@@ -1,11 +1,11 @@
 local Window = require ('katu.nvim.ui.float').Window
 -- local inspect = require 'inspect'
 
-local fs = require ('utils.fs')
+local fs = require ('katu.utils.fs')
 -- local Log = require'katu.lua.log'.Log
 
 
-local utils = require('utils')
+local utils = require('katu.utils')
 local fzf = require('katu.nvim.fzf')
 
 local fmt = string.format

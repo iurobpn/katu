@@ -1,9 +1,9 @@
 local views = require('katu.nvim.ui.views')
-local utils = require('utils')
+local utils = require('katu.utils')
 local cmake = require('katu.nvim.cmake')
 local prj = require('katu.lua.project')
-local fs = require('utils.fs')
-local runner = require('utils.runner')
+local fs = require('katu.utils.fs')
+local runner = require('katu.utils.runner')
 
 local M = {
     configs = nil,

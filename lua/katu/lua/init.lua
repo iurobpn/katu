@@ -1,5 +1,4 @@
 -- submodules of katu.lua
--- require'utils.lua' -- empty
 
 local lua = {
     proj = require'katu.lua.project',

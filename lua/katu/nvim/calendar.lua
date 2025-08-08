@@ -1,4 +1,3 @@
-local utils = require('utils')
 local tbl = require('katu.lua.tbl')
 local M = {}
 M.month_names = {
@@ -265,7 +264,6 @@ M.len = function(str)
     -- count char in string dividing unicode of M.seps by 3
     local total = #str
     local border = tbl.flatten(M.border)
-    -- utils.pprint(border)
     -- print('border: ' .. #border)
     local unicode = 0
     for _, u in ipairs(border) do
@@ -289,7 +287,7 @@ function M.set_hl()
     -- Create a new empty namespace
 
 
-    local colors = require('gruvbox-colors').palette
+    local colors = require('katu.gruvbox-colors').palette
     local hl_group = {}
     if colors.light0 == nil then
         print('colors not found')
@@ -311,7 +309,7 @@ M.set_grid_hl = function(v_padding, h_padding, win_width, grid_height)
     M.set_hl()
     -- set hl on the lines vert_padding + 1 to vert_padding + 25 of the buffer
     -- also, from columns horiz_padding to win_width - horiz_padding
-    local colors = require('gruvbox-colors').palette
+    local colors = require('katu.gruvbox-colors').palette
     local hl_group = {}
     if colors.light0 == nil then
         print('colors not found')
@@ -352,11 +350,8 @@ function M.draw_calendar(year, month, border, win_width, win_height)
         border = M.borders.table
     end
     -- print('border')
-    -- utils.pprint(border)
     M.border = border
     -- print('flattened border')
-    -- local bdr = utils.tbl_flatten(M.border)
-    -- utils.pprint(bdr)
     -- Get window dimensions
     if win_width == nil then
         M.win_width = vim.api.nvim_win_get_width(0)-2

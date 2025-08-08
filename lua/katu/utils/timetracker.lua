@@ -1,4 +1,4 @@
-local fn = require("utils.fn")
+local fn = require("katu.utils.fn")
 
 local TimeTracker = {}
 

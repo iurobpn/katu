@@ -2,9 +2,8 @@ if vim == nil then
     return
 end
 
-local tbl = require('utils.tbl')
-require('class')
-local utils = require('utils')
+require('katu.utils.class')
+local utils = require('katu.utils')
 -- local Log = require('katu.lua.log').Log
 
 local Buffer = require('katu.nvim.utils').Buffer
@@ -92,7 +91,7 @@ local Window = {
         }
     },
 
-    colors = require('config.gruvbox-colors').get_colors(),
+    colors = require('katu.gruvbox-colors').get_colors(),
 
 }
 --------------------------------
@@ -579,7 +578,6 @@ function Window:set_buf_links(map_file_line)
 
     local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
 
-    -- local N = utils.numel(map_file_line)
     -- for i=0,N-1 do
     -- vim.api.nvim_buf_clear_namespace(self.buf, link.id, i, i+1)
     -- end
