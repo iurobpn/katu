@@ -3,14 +3,13 @@ local tbl = require('utils.tbl')
 local utils = require('utils')
 
 Project = {
-    root_priority = {'main_root', 'git', 'root_files'},
+    root_priority = {'git', 'root_files'},
     settings_file = '.settings.json',
-    root_dir = nil,
+    root_dir = false,
     find_root = {},
     query_user_root = false,
-    main_root = '',
     root_files = { -- not tested
-        '.root', 'root.tex',
+        '.root', 'main.tex',
     },
     tables = {},
     excepts = {},
@@ -27,7 +26,7 @@ function mt:__call()
     end
     for _, root in ipairs(Project.root_priority) do
         Project.root_dir = Project.find_root[root](Project[root])
-        if Project.root_dir then
+        if type(Project.root_dir) == 'string' then
             Project.root_dir = Project.root_dir:gsub('/$', '')
             break
         end
@@ -47,10 +46,10 @@ function Project.init()
     end
     Project.root_dir = Project.find_root()
     if not Project.root_dir then
-        print('Project root directory not found')
+        vim.g.root_dir = nil
         return
     else
-        print('Project root directory: ' .. Project.root_dir)
+        vim.notify('Project root directory: ' .. Project.root_dir, vim.log.levels.INFO)
         vim.g.root_dir = Project.root_dir
     end
 
@@ -67,7 +66,7 @@ function Project.init()
         end
         fd:close()
     else
-        vim.notify('settings file not found')
+        vim.notify('settings file not found', vim.log.levels.WARN)
     end
 
     local t_period = 30000
@@ -79,6 +78,9 @@ function Project.init()
 end
 
 function Project.save()
+    if not Project.root_dir then
+        return
+    end
     local filename = Project.root_dir .. '/' .. Project.settings_file
     local settings = {}
     for k, v in pairs(Project) do
@@ -96,8 +98,6 @@ function Project.save()
         end
         for i, keys in ipairs(Project.excepts) do
             for i, k in ipairs(keys) do
-                print(i)
-                utils.pprint(k, 'removing key: ')
                 tables[name][k] = nil
             end
         end
@@ -110,21 +110,12 @@ function Project.save()
         fd:write(tbl.to_json(settings))
         fd:close()
     else
-        vim.notify('Error saving settings')
-    end
-end
-
-function Project.find_root.main_root(main_root)
-    if main_root then
-        main_root = main_root:gsub('\n', '')
-        return Project.find_root.root_files({main_root})
-    else
-        return false
+        print('Error saving settings')
     end
 end
 
 function Project.find_root.git()
-    local cmd = 'git rev-parse --show-toplevel'
+    local cmd = 'git rev-parse --show-toplevel 2>&1'
     local fd = io.popen(cmd)
     if not fd then
         return false
@@ -147,10 +138,10 @@ function Project.find_root.root_files(file_list)
 
     while current_dir ~= home_dir and current_dir ~= '/' do
         for _, file in ipairs(file_list) do
-            local root_path = current_dir .. '/' .. file
+            local filepath = current_dir .. '/' .. file
 
-            if require'utils.fs'.file_exists(root_path) then
-                lfs.chdir(cdir)
+            if require'utils.fs'.file_exists(filepath) then
+                lfs.chdir(current_dir)
                 return current_dir:gsub('\n', '')
             end
         end
