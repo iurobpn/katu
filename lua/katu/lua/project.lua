@@ -1,7 +1,3 @@
-local json = require('cjson')
-local tbl = require('utils.tbl')
-local utils = require('utils')
-
 Project = {
     root_priority = {'git', 'root_files'},
     settings_file = '.settings.json',
@@ -44,6 +40,7 @@ function Project.init()
     if vim == nil or not vim.g.enable_project then
         return
     end
+
     Project.root_dir = Project.find_root()
     if not Project.root_dir then
         vim.g.root_dir = nil
@@ -69,11 +66,10 @@ function Project.init()
         vim.notify('settings file not found', vim.log.levels.WARN)
     end
 
-    local t_period = 30000
     -- save the settings every 30 s
     vim.defer_fn(function()
         Project.save()
-    end, t_period)
+    end, 30000)
     Project.initialized = true
 end
 
@@ -81,6 +77,8 @@ function Project.save()
     if not Project.root_dir then
         return
     end
+
+    local utils = require('utils')
     local filename = Project.root_dir .. '/' .. Project.settings_file
     local settings = {}
     for k, v in pairs(Project) do
@@ -88,6 +86,7 @@ function Project.save()
             settings[k] = v
         end
     end
+
     local tables = {}
     for name, tab in pairs(settings.tables) do
         tables[name] = {}
@@ -96,8 +95,8 @@ function Project.save()
                 tables[name][k] = v
             end
         end
-        for i, keys in ipairs(Project.excepts) do
-            for i, k in ipairs(keys) do
+        for _, keys in ipairs(Project.excepts) do
+            for _, k in ipairs(keys) do
                 tables[name][k] = nil
             end
         end
@@ -165,8 +164,6 @@ function Project.get(name)
             Project.init()
             return Project.get(name)
         end
-
-        -- check if file exists
 
         local filename = Project.root_dir .. '/' .. name
         local fd = io.open(filename, 'r')
