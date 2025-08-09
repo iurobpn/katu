@@ -56,7 +56,7 @@ function Project.init()
         local s = fd:read('*a')
         local settings = nil
         if s and s ~= '' then
-            settings = require'cjson'.decode(s)
+            settings = require'katu.utils.tbl'.from_json(s)
             for k, v in pairs(settings) do
                 Project[k] = v
             end
