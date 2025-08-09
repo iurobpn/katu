@@ -179,6 +179,11 @@ M.deepcopy = function(tbl)
 end
 
 function M.to_json(tbl)
+    local json = require('dkjson')
+    return json.encode(tbl, { indent = true })
+end
+
+function M.to_json_main(tbl)
     local function is_array(tbl)
         local max = 0
         local n = 0
@@ -267,6 +272,15 @@ function M.to_json(tbl)
         end
     end
     return serialize(tbl)
+end
+
+function M.from_json(json_str)
+    local json = require('dkjson')
+    local obj, pos, err = json.decode(json_str, 1, nil)
+    if err then
+        error("Error parsing JSON: " .. err)
+    end
+    return obj
 end
 
 return M

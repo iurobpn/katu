@@ -106,7 +106,7 @@ function Project.save()
     local fd = io.open(filename, 'w')
     if fd then
         vim.notify('saving settings at ' .. filename)
-        fd:write(tbl.to_json(settings))
+        fd:write(require'katu.utils.tbl'.to_json(settings))
         fd:close()
     else
         print('Error saving settings')
