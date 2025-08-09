@@ -3,10 +3,7 @@ if vim == nil then
 end
 
 require('katu.utils.class')
-local utils = require('katu.utils')
 -- local Log = require('katu.lua.log').Log
-
-local Buffer = require('katu.nvim.utils').Buffer
 
 local fmt = string.format
 
@@ -191,6 +188,7 @@ function Window:get_size()
     local width = 0
     local height = 0
 
+    local Buffer = require('katu.nvim.utils').Buffer
     if self.size.flex then
         local lines = Buffer.get_lines(self.buf)
 
@@ -376,6 +374,7 @@ function Window:open(filename, linenr)
     elseif self.vid ~= nil then -- use the window id already set. It must be a float
         self.buf, self.filename = Window.get_window(self.vid)
     else
+        local Buffer= require'katu.nvim.utils'.Buffer
         if self.buf == nil then
             self.buf = Buffer.scratch()
         end
@@ -659,6 +658,7 @@ function Window.setup_buffer_with_links()
         "yet_another.lua:30"
     }
 
+    local Buffer = require('katu.nvim.utils').Buffer
     -- Set the buffer lines
     Buffer.set_lines(buf, lines)
 
@@ -758,7 +758,7 @@ end
 
 function Window:set_content(content)
     if type(content) == 'string' then
-        content = utils.split(content, '\n')
+        content = require'katu.utils'.split(content, '\n')
     end
     self.content = content
     -- vim.api.nvim_buf_set_lines(self.buf, 0, -1, false, {})
@@ -789,6 +789,7 @@ function Window:fit()
         vim.notify('No buffer to fit')
         return
     end
+    local Buffer = require('katu.nvim.utils').Buffer
     local lines = Buffer.get_lines(self.buf)
 
     -- Calculate the width (the length of the longest line)
@@ -854,7 +855,7 @@ function Window.toggle()
         win:close()
         Window.floats[vid] = nil
     else
-        local n = utils.numel(Window.hidden)
+        local n = require'katu.utils'.numel(Window.hidden)
         local win = nil
         local idx = -1
         if n > 0 then
@@ -880,34 +881,6 @@ end
 
 Window = _G.class(Window)
 
-function Buffer.set_buf_links(buf, _)
-    if Window.ns == nil or Window.ns.link == nil then
-        Window.set_link_ns()
-    end
-
-    -- Create an autocommand for updating when cursor moves
-    vim.api.nvim_create_autocmd("CursorMoved", {
-        buffer = buf,
-        callback = function()
-            local link = Window.ns.link
-            -- Clear all highlights first
-            vim.api.nvim_buf_clear_namespace(buf, link.id, 0, -1)
-
-            local line_count = vim.api.nvim_buf_line_count(buf)
-
-            local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
-            -- Reapply without cursor highlights
-            for i = 0, line_count - 1 do
-                if i ~= cursor_line then
-                    vim.api.nvim_buf_clear_namespace(buf, link.id, i, i + 1)
-                end
-            end
-
-            -- Apply the highlight with cursor on the current line
-            vim.api.nvim_buf_add_highlight(buf, link.id, link.hover.group, cursor_line, 0, -1)
-        end,
-    })
-end
 
 Window.complete = function(arg, _, _)
     local options = {

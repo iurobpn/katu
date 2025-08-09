@@ -1,6 +1,3 @@
-local Window = require('katu.nvim.ui.float').Window
-local utils = require'katu.utils'
-
 local Float = {
     window = nil,
     buf = nil,
@@ -15,6 +12,7 @@ function Float.toggle()
 end
 
 function Float.open()
+    local Window = require('katu.nvim.ui.float').Window
     local win = nil
     if Float.window then
         win = Float.window
@@ -52,7 +50,7 @@ end
 
 function Float.close()
     if Float.window then
-        utils.traceback()
+        require'katu.utils'.traceback()
         print('Closing float')
         Float.window.close()
         Float.window = nil
@@ -65,6 +63,7 @@ local wins = {}
 
 
 function Float.custom_win(pos,size)
+    local Window = require('katu.nvim.ui.float').Window
     local win = Window()
     win:config(
         {
@@ -88,6 +87,7 @@ function Float.clear()
 end
 
 function Float.toggle_fullscreen()
+    local Window = require('katu.nvim.ui.float').Window
     local win_id = vim.fn.win_getid()
     local win_config = vim.api.nvim_win_get_config(win_id)
     if Window.floats[win_id].fullscreen then

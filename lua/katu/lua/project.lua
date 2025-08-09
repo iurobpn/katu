@@ -1,4 +1,4 @@
-Project = {
+local Project = {
     root_priority = {'git', 'root_files'},
     settings_file = '.settings.json',
     root_dir = false,
@@ -139,7 +139,7 @@ function Project.find_root.root_files(file_list)
         for _, file in ipairs(file_list) do
             local filepath = current_dir .. '/' .. file
 
-            if require'utils.fs'.file_exists(filepath) then
+            if require'katu.utils.fs'.file_exists(filepath) then
                 lfs.chdir(current_dir)
                 return current_dir:gsub('\n', '')
             end
@@ -169,7 +169,7 @@ function Project.get(name)
         local fd = io.open(filename, 'r')
         if fd then
             local s = fd:read('*a')
-            local tab = require'utils.tbl'.from_json(s)
+            local tab = require'katu.utils.tbl'.from_json(s)
             Project.tables = tab
             fd:close()
             return Project.tables[name]

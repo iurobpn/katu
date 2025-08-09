@@ -7,11 +7,11 @@
 
 -- PRAGMA database_list;
 --
-require('katu.lua.sqlite')
+
 local M = {
     filename = 'zotero.sqlite',
-    path = '/home/gagarin/Koofr/zotero/',
-    sql = nil,
+    path = os.getenv('HOME') .. '/Koofr/zotero/',
+    sql = require('katu.lua.sqlite').Sql
 }
 
 

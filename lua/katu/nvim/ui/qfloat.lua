@@ -1,15 +1,5 @@
-local Window = require ('katu.nvim.ui.float').Window
 -- local inspect = require 'inspect'
-
-local fs = require ('katu.utils.fs')
--- local Log = require'katu.lua.log'.Log
-
-
-local utils = require('katu.utils')
-local fzf = require('katu.nvim.fzf')
-
 local fmt = string.format
-
 
 local qfloat = {
     win_id = nil,
@@ -36,6 +26,7 @@ function qfloat.init()
 end
 
 function qfloat.qcheck(fname)
+    local fs = require ('katu.utils.fs')
     if not fs.file_exists(fname) then
         vim.notify('File does not exist')
         return
@@ -67,7 +58,7 @@ function qfloat.qrun(cmd)
     end
     local fname = '/tmp/error_lua.log'
     cmd = cmd .. ' > ' .. fname
-    utils.get_command_output(cmd)
+    require'katu.utils'.get_command_output(cmd)
     vim.cmd.cfile(fname)
     --check if there is errors in the qfix
     local qf = vim.fn.getqflist()
@@ -78,6 +69,7 @@ function qfloat.qrun(cmd)
 end
 
 function qfloat.qfile(filename)
+    local fs = require ('katu.utils.fs')
     if not fs.file_exists(filename) then
         vim.notify('File does not exist: ' .. filename)
         return
@@ -95,7 +87,7 @@ function qfloat.qrun_fzf()
     end
     local options = '--prompt="Select a file> "'
 
-    fzf.run({ source = source, sink = sink, options = options })
+    require'katu.nvim.fzf'.run({ source = source, sink = sink, options = options })
 end
 
 -- Store the window ID globally
@@ -116,6 +108,8 @@ function qfloat.qopen()
     -- local opts = get_options({rel_width = 0.5, rel_height = 0.3, rel_row = 0.75, rel_col = 0.25})
 
     --
+
+    local Window = require ('katu.nvim.ui.float').Window
     -- Open the quickfix window
     local win = Window({
         width = 0.5,
@@ -140,6 +134,7 @@ end
 
 -- Function to close the floating quickfix window
 function qfloat.qclose()
+    local Window = require ('katu.nvim.ui.float').Window
     if Window.close(qfloat.winid) then
         qfloat.win_id = nil
     else
@@ -185,6 +180,7 @@ qfloat.qrun_file = function(filename, is_nvim)
 end
 
 qfloat.qrun_current = function(is_nvim)
+    local fs = require ('katu.utils.fs')
     qfloat.qrun_file(fs.get_current_file(), is_nvim)
 end
 
@@ -230,7 +226,7 @@ end
 -- Function to get the file and line number of the quickfix entry of the line '.'
 function qfloat.qget_link()
     local line = vim.fn.getline('.')
-    local list_item = utils.split(line, '|')
+    local list_item = require'katu.utils'.split(line, '|')
 
     if list_item == nil or #list_item < 2 then
         vim.notify("No quickfix entry found(qget_link).")
@@ -298,7 +294,7 @@ end
 -- lines must be separated by '\n' to be parsed, or use the optional sep parameter.
 function qfloat.qstring(lines_str, sep)
     sep = sep or '\n'
-    local filename = qfloat.qparse_all(utils.split(lines_str, sep))
+    local filename = qfloat.qparse_all(require'katu.utils'.split(lines_str, sep))
     if filename ~= nil then
         return filename
     else
@@ -341,7 +337,7 @@ function qfloat.qparse(line)
         vim.notify("Error parsing line: " .. line)
         return nil
     end
-    file = utils.split(file, ' ')[1]
+    file = require'katu.utils'.split(file, ' ')[1]
     local filename = file[#file]
     return {
         filename = filename,
@@ -379,7 +375,7 @@ if vim.g.proj_enabled == nil or vim.g.proj_enabled == false then
     vim.api.nvim_create_user_command("QrunFzf", qfloat.qrun_fzf, {})
     vim.api.nvim_create_user_command("QrunCurrent", qfloat.qrun_current, {})
     vim.api.nvim_create_user_command("QrunLast", qfloat.qrun_last, {})
-    vim.api.nvim_create_user_command("Qclose", Window.close, {})
+    vim.api.nvim_create_user_command("Qclose", qfloat.qclose, {})
     vim.api.nvim_create_user_command("Qmessage", qfloat.qmessage, {})
     vim.api.nvim_create_user_command("Qrun",
         function(args)

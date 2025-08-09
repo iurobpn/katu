@@ -1,4 +1,3 @@
-local views = require('katu.nvim.ui.views')
 local Clock = {
     window = nil
 }
@@ -54,7 +53,7 @@ function Clock.open(t)
     if Clock.window then
         win = Clock.window
     else
-        win = views.popup()
+        win = require('katu.nvim.ui.views').popup()
     end
     t = t or 1000
     win:config(

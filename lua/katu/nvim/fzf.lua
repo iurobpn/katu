@@ -1,5 +1,4 @@
 local M = {}
-local fzf_lua = require('fzf-lua')
 local fzf_options = {
     dir = '~/path',
     options = {
@@ -49,6 +48,7 @@ function M.exec(source, ...)
     end
 
     -- Perform the fzf search
+    local fzf_lua = require'fzf-lua'
     fzf_lua.fzf_exec(source, {
         prompt = options.prompt,
         multi = options.multi or true,  -- Allow multiple selections

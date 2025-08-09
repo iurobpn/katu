@@ -6,14 +6,11 @@
 
 -- local fzf_lua = require("fzf-lua")
 local builtin = require("fzf-lua.previewer.builtin")
-
-local utils = require("katu.utils")
-local fs = require("katu.utils.fs")
+local Previewer = builtin.buffer_or_file:extend()
 
 local M = {}
 
 -- Inherit from "base" instead of "buffer_or_file"
-local Previewer = builtin.buffer_or_file:extend()
 
 
 function Previewer:new(o, opts, fzf_win, ...)--i
@@ -25,7 +22,7 @@ function Previewer:new(o, opts, fzf_win, ...)--i
 end
 
 function Previewer:populate_preview_buf(entry_str)
-    local path, line_nr = utils.get_file_line(entry_str)
+    local path, line_nr = require'katu.utils'.get_file_line(entry_str)
     if path == nil then
         vim.notify('Could not get file path from entry_str: ' .. entry_str)
         return
@@ -76,7 +73,7 @@ function Previewer:set_custom_hl(buf, line)
 end
 
 function Previewer.set_syntax(winid,file)
-    local ft = fs.get_file_extension(file)
+    local ft = require'katu.utils.fs'.get_file_extension(file)
     if ft == 'md' then
         ft = 'markdown'
     end

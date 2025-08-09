@@ -246,6 +246,36 @@ function Buffer.is_valid(buf)
     return true
 end
 
+function Buffer.set_buf_links(buf, _)
+    Window = require'katu.nvim.ui.float'
+    if Window.ns == nil or Window.ns.link == nil then
+        Window.set_link_ns()
+    end
+
+    -- Create an autocommand for updating when cursor moves
+    vim.api.nvim_create_autocmd("CursorMoved", {
+        buffer = buf,
+        callback = function()
+            local link = Window.ns.link
+            -- Clear all highlights first
+            vim.api.nvim_buf_clear_namespace(buf, link.id, 0, -1)
+
+            local line_count = vim.api.nvim_buf_line_count(buf)
+
+            local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
+            -- Reapply without cursor highlights
+            for i = 0, line_count - 1 do
+                if i ~= cursor_line then
+                    vim.api.nvim_buf_clear_namespace(buf, link.id, i, i + 1)
+                end
+            end
+
+            -- Apply the highlight with cursor on the current line
+            vim.api.nvim_buf_add_highlight(buf, link.id, link.hover.group, cursor_line, 0, -1)
+        end,
+    })
+end
+
 M.Buffer = Buffer
 
 return M

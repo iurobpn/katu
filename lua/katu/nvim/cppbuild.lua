@@ -1,9 +1,4 @@
-local views = require('katu.nvim.ui.views')
-local utils = require('katu.utils')
-local cmake = require('katu.nvim.cmake')
 local prj = require('katu.lua.project')
-local fs = require('katu.utils.fs')
-local runner = require('katu.utils.runner')
 
 local M = {
     configs = nil,
@@ -33,6 +28,7 @@ M.select_config = function()
         prompt = 'Select a config>',
         actions = {
             ["default"] = function(selected)
+                local utils = require('katu.utils')
                 local sel  = utils.split(selected[1], ':')
                 M.current.config = M.configs[tonumber(sel[1])]
                 M.show()
@@ -65,6 +61,7 @@ M.init = function()
     -- and recover the last selected config and target
     -- and show the selected config and target
 
+    local fs = require('katu.utils.fs')
     if (not fs.file_exists('CMakePresets.json')) and (not fs.file_exists('CMakeUserPresets.json')) and (not fs.file_exists('CMakeLists.txt')) then
         return
     end
@@ -90,6 +87,7 @@ M.init = function()
     -- and select a config and a target
     -- then show the selected config and target
     if M.configs == nil or M.targets == nil then
+        local cmake = require('katu.nvim.cmake')
         M.configs, M.targets = cmake.get_all()
     end
     -- utils.pprint(M.configs, 'configs')
@@ -108,6 +106,8 @@ M.close = function()
 end
 
 M.clean = function()
+    local runner = require('katu.utils.runner')
+
     local cmd = 'cmake --build --target clean --preset ' .. M.current.config.configure.name
     runner.run(cmd)
 end
@@ -142,6 +142,7 @@ M.command = function(args)
             M.select_target()
         end
     elseif subcommand == 'cmake' then
+        local cmake = require('katu.nvim.cmake')
         cmake.get_all()
     else
         vim.notify("Invalid command. Usage: :Timer <configure | build | run | select target | config | cmake get")
@@ -177,6 +178,7 @@ M.show = function()
 
     local redraw = M.win ~= nil
     if not redraw then
+        local views = require('katu.nvim.ui.views')
         M.win = views.new()
         if M.win == nil then
             error('Failed to create a new window')
@@ -227,7 +229,7 @@ M.configure = function()
     local cmd = 'cmake --preset ' .. M.current.config.configure.name
     vim.notify('cmd: ' .. cmd)
 
-    runner.run(cmd)
+    require'katu.utils.runner'.run(cmd)
 end
 
 M.build = function()
@@ -250,7 +252,7 @@ M.debug = function()
     end
 
     local cmd = 'gdb ' .. M.current.config.configure.build_dir .. '/' .. M.current.targets[1]
-    runner.run(cmd)
+    require'katu.utils.runner'.run(cmd)
 end
 M.run = function()
     if M.current.targets == nil or #M.current.targets == 0 then
@@ -258,10 +260,11 @@ M.run = function()
     end
 
     local cmd = M.current.config.configure.build_dir .. '/' .. M.current.targets[1]
-    runner.run(cmd)
+    require'katu.utils.runner'.run(cmd)
 end
 
 M.cmake_get_all = function()
+    local cmake = require('katu.nvim.cmake')
     M.configs, M.targets = cmake.get_all()
     M.current.config = M.configs[2]
     M.current.targets = {}

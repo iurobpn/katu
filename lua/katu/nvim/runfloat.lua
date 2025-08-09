@@ -1,5 +1,4 @@
 -- floating_command.lua
-
 local M = {}
 
 -- Function to run a shell command and display the output in a floating window

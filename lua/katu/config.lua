@@ -1,5 +1,3 @@
--- local log = require("katu.util.log")
-
 local katu = {}
 
 --- katu configuration with its default values.

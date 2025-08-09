@@ -1,7 +1,7 @@
 require'katu.utils.time'
 local gruvbox = require'katu.gruvbox-colors'
-require'debug'
 require'katu.utils.class'
+-- require'debug'
 
 local Level = {
     trace = 1,

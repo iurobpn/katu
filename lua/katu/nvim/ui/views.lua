@@ -1,7 +1,7 @@
-local Window = require('katu.nvim.ui.float').Window
 local views = {}
 
 function views.new()
+    local Window = require('katu.nvim.ui.float').Window
     local win = Window()
     return win
 end
@@ -124,18 +124,21 @@ function views.get_scratch_opt()
 end
 
 function views.minimal()
+    local Window = require('katu.nvim.ui.float').Window
     local win = Window()
     win:config({style = "minimal"})
     return win
 end
 
 function views.open_current_window()
+    local Window = require('katu.nvim.ui.float').Window
     local win = Window()
     win.current = true
     win:open()
 end
 
 function views.popup(...)
+    local Window = require('katu.nvim.ui.float').Window
     local win = Window()
 
     local args = {...}
@@ -174,7 +177,10 @@ end
 function views.scratch(content, ...)
     local opts = {...}
     opts = opts[1] or {}
+
+    local Window = require('katu.nvim.ui.float').Window
     local win = Window()
+
     opts.buffer = views.get_scratch_opt()
     opts.content = content
     opts.option = {

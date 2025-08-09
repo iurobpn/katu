@@ -1,4 +1,3 @@
-local tbl = require('katu.lua.tbl')
 local M = {}
 M.month_names = {
     "January", "February", "March", "April", "May", "June",
@@ -263,7 +262,7 @@ end
 M.len = function(str)
     -- count char in string dividing unicode of M.seps by 3
     local total = #str
-    local border = tbl.flatten(M.border)
+    local border = require'katu.lua.tbl'.flatten(M.border)
     -- print('border: ' .. #border)
     local unicode = 0
     for _, u in ipairs(border) do

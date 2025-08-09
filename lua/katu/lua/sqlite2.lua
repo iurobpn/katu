@@ -1,5 +1,3 @@
-local sqlite3 = require("lsqlite3")
-
 require('katu.utils.class')
 
 local Sql = {filename = ''}
@@ -9,7 +7,7 @@ local Sql = {filename = ''}
 function Sql:connect(filename)
     self.filename = filename or self.filename
 
-    self.db = sqlite3.open(self.filename)
+    self.db = require("lsqlite3").open(self.filename)
     if self.db == nil then
         error('Could not connect to the database ' .. self.filename)
     end
