@@ -5,7 +5,7 @@ local M = {
     templater = templater,
     templates = nil,
     config = {
-        template_dir = os.getenv('HOME') .. '.config/nvim/templates',
+        template_dir = vim.fn.stdpath('config') .. '/templates',
     },
 }
 
