@@ -1,14 +1,14 @@
 {
-  "initialized":true,
-  "root_files":[".root","main.tex"],
-  "excepts":[],
   "settings_file":".settings.json",
-  "root_priority":["git","root_files"],
-  "root_dir":"/home/gagarin/git/my/home/katu",
-  "query_user_root":false,
+  "initialized":true,
+  "excepts":[],
   "tables":{
     "qfloat":{
       "last_file":""
     }
-  }
+  },
+  "root_files":[".root","main.tex"],
+  "root_priority":["git","root_files"],
+  "query_user_root":false,
+  "root_dir":"/home/gagarin/git/my/home/katu"
 }
