@@ -39,7 +39,15 @@ end
 function katu.setup(options)
     katu.options = katu.defaults(options or {})
 
+    require"katu.commands"
+    require"katu.keymaps"
+    katu.color = require'katu.gruvbox-colors'
     -- log.warn_deprecation(katu.options)
+    --
+    local proj = require'katu.lua.project'
+    _G.proj = proj
+    vim.g.proj = proj
+    vim.g.proj.init()
 
     return katu.options
 end

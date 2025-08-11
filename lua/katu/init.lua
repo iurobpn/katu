@@ -1,11 +1,8 @@
-local katu = {
-    color = require'katu.gruvbox-colors',
-    lua = require('katu.lua'),
-    nvim = require('katu.nvim'),
-}
+local katu = require"katu.config"
+katu.lua = require"katu.lua"
 
 -- setup keymaps and commands
-require'katu.nvim.mdlinks'
+katu.setup()
 
 _G.katu = katu
 return katu

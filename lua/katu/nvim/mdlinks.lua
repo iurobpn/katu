@@ -1,9 +1,6 @@
 local M = {
-    keymap = {
-        mode = 'n',
-        keys = 'gf'
-    }
 }
+
 local function get_mdlink()
     local current_word = vim.fn.expand("<cWORD>")
     print("Current word: " .. current_word)
@@ -31,12 +28,12 @@ end
 function M.open_mdlink()
     local link = get_mdlink()
     if link == "" then
-        vim.cmd('normal ' .. M.keymap.keys)
+        vim.cmd('normal gf')
         return
     end
     files = require'katu.utils'.split(link, "\n")
     if #files == 0 then
-        vim.cmd('normal ' .. M.keymap.keys)
+        vim.cmd('normal gf')
         return
     end
     if #files > 1 then
@@ -54,11 +51,5 @@ function M.open_mdlink()
     end
 end
 
-vim.api.nvim_set_keymap(
-    M.keymap.mode,
-    M.keymap.keys,
-    ":lua require'mdlinks'.open_mdlink()<CR>",
-    { noremap = true, silent = true, desc = "Open markdown link" }
-)
 
 return M

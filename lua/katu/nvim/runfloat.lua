@@ -46,9 +46,5 @@ function M.run_command_in_float(cmd)
     vim.api.nvim_buf_set_keymap(buf, "n", "<Esc>", ":q<CR>", { noremap = true, silent = true })
 end
 
--- Expose the function to be used as a command
-vim.api.nvim_create_user_command("RunFloat", function(opts)
-    M.run_command_in_float(opts.args)
-end, { nargs = 1 })
 
 return M

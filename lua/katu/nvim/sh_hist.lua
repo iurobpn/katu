@@ -33,10 +33,8 @@ function M.complete(arg_lead, cmd_line, cursor_pos)
         return vim.startswith(option, arg_lead)
     end, options)
 end
-
--- Command to start or control the countdown timer
-vim.api.nvim_create_user_command("Hist", function(opts)
-    local args = opts.fargs
+function M.get_hist(fargs)
+    local args = require("katu.utils").split(fargs, " ")
     if #args >= 1 then
         local arg = args[1]
         if arg == "bash" then
@@ -49,10 +47,6 @@ vim.api.nvim_create_user_command("Hist", function(opts)
     else
         print("Usage: :Hist shell_name")
     end
-end, { nargs = "?" , complete = M.complete })
-
-vim.api.nvim_set_keymap('n', '<leader>hb', '<cmd>Hist bash<CR>"', {noremap=true, desc='Search and get bash history'})
-vim.api.nvim_set_keymap('n', '<leader>hz', '<cmd>Hist zsh<CR>"', {noremap=true, desc='Search and get zsh history'})
-vim.api.nvim_set_keymap('n', '<leader>hf', '<cmd>Hist fish<CR>"', {noremap=true, desc='Search and get fish history'})
+end
 
 return M

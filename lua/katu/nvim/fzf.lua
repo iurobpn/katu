@@ -70,11 +70,11 @@ function M.exec(source, ...)
     -- end
 end
 
-M.cd = function(opts)
-    if #opts.args == 0 then
+function M.cd(opts)
+    if opts == nil then
         dir = '~'
     else
-        dir = opts.args
+        dir = opts
     end
     local source = 'fd . -td --hidden --exclude .git --exclude .gtags ' .. dir
     local options = {
@@ -84,11 +84,11 @@ M.cd = function(opts)
     }
     M.exec(source, options)
 end
-M.lcd = function()
-    if #opts.args == 0 then
+M.lcd = function(opts)
+    if opts == nil then
         dir = '~'
     else
-        dir = opts.args
+        dir = opts
     end
     local source = 'fd . -td --hidden --exclude .git --exclude .gtags ' .. dir
     local options = {
@@ -127,58 +127,28 @@ function M.run(arg)
 
     return vim.fn['fzf#run']({source = source, sink = sink, options = options})
 end
-
-vim.api.nvim_create_user_command(
-    'ListFilesFromBranch',
-    function(opts)
-        require 'fzf-lua'.files({
-            cmd = "git ls-tree -r --name-only " .. opts.args,
-            prompt = opts.args .. "> ",
-            actions = {
-                ['default'] = false,
-                ['ctrl-s'] = false,
-                ['ctrl-v'] = function(selected, o)
-                    local file = require'fzf-lua'.path.entry_to_file(selected[1], o)
-                    local cmd = string.format("Gvsplit %s:%s", opts.args, file.path)
-                    vim.cmd(cmd)
-                end,
-            },
-            previewer = false,
-            preview =  {
-                type = "cmd",
-                fn = function(items)
-                    local file = require'fzf-lua'.path.entry_to_file(items[1])
-                    return string.format("git diff %s HEAD -- %s | delta", opts.args, file.path)
-                end
-            }
-        })
-    end,
-    {
-        nargs = 1,
-        force = true,
-        complete = function()
-            local branches = vim.fn.systemlist("git branch --all --sort=-committerdate")
-            if vim.v.shell_error == 0 then
-                return vim.tbl_map(function(x)
-                    return x:match("[^%s%*]+"):gsub("^remotes/", "")
-                end, branches)
+function M.ls_files_from_branch(args)
+    require 'fzf-lua'.files({
+        cmd = "git ls-tree -r --name-only " .. args,
+        prompt = args .. "> ",
+        actions = {
+            ['default'] = false,
+            ['ctrl-s'] = false,
+            ['ctrl-v'] = function(selected, o)
+                local file = require'fzf-lua'.path.entry_to_file(selected[1], o)
+                local cmd = string.format("Gvsplit %s:%s", args, file.path)
+                vim.cmd(cmd)
+            end,
+        },
+        previewer = false,
+        preview =  {
+            type = "cmd",
+            fn = function(items)
+                local file = require'fzf-lua'.path.entry_to_file(items[1])
+                return string.format("git diff %s HEAD -- %s | delta", args, file.path)
             end
-        end,
+        }
     })
-
-vim.api.nvim_create_user_command(
-    'Fcd',
-    M.cd,
-    {
-        nargs = '?',
-    }
-)
-vim.api.nvim_create_user_command(
-    'Flcd',
-    M.lcd,
-    {
-        nargs = '?',
-    }
-)
+end
 
 return M

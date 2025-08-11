@@ -53,14 +53,12 @@ M.select_target = function()
 end
 
 -- build the selected config and target
-M.init = function()
-
-    -- check if a settings file exists using the prj module
-    -- if it does not exist, return and print a warning
-    -- if it does, then load the settings file
-    -- and recover the last selected config and target
-    -- and show the selected config and target
-
+-- check if a settings file exists using the prj module
+-- if it does not exist, return and print a warning
+-- if it does, then load the settings file
+-- and recover the last selected config and target
+-- and show the selected config and target
+function M.init()
     local fs = require('katu.utils.fs')
     if (not fs.file_exists('CMakePresets.json')) and (not fs.file_exists('CMakeUserPresets.json')) and (not fs.file_exists('CMakeLists.txt')) then
         return
@@ -120,7 +118,8 @@ end
 -- Command selection function
 -- Timer command handler
 M.command = function(args)
-    local subcommand = args.fargs[1]
+    local fargs = require"katu.utils".split(args, " ")
+    local subcommand = fargs[1]
     if not subcommand then
         M.show()
         return
@@ -221,10 +220,6 @@ M.redraw = function()
     M.win:redraw()
 end
 
-vim.api.nvim_create_autocmd("VimResized", {
-  callback = M.redraw
-})
-
 M.configure = function()
     local cmd = 'cmake --preset ' .. M.current.config.configure.name
     vim.notify('cmd: ' .. cmd)
@@ -279,24 +274,15 @@ function M.complete_command(arg_lead, _, _)
     end, options)
 end
 
-vim.api.nvim_create_user_command('Cpp', function(args)
-    M.command(args)
-end, { nargs = '*' , complete = M.complete_command, desc = 'C++ config, build and run commands' })
-
-vim.api.nvim_set_keymap('n', '<F10>', ':Cpp<CR>', { noremap = true, silent = true, desc = 'C++ config, build and run commands' })
+vim.api.nvim_create_autocmd("VimResized", {
+  callback = M.redraw
+})
 
 M.print = function()
     print('Config: ', vim.inspect(M.current.config))
     print('Target: ', vim.inspect(M.current.targets))
 end
 
--- M.win = views.new()
--- M.win:config({
---     content = 'Hello World',
--- })
--- M.win:open()
-
 M.init()
-
 
 return M

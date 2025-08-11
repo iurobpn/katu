@@ -106,9 +106,6 @@ function qfloat.qopen()
 
     -- Calculate window size and position
     -- local opts = get_options({rel_width = 0.5, rel_height = 0.3, rel_row = 0.75, rel_col = 0.25})
-
-    --
-
     local Window = require ('katu.nvim.ui.float').Window
     -- Open the quickfix window
     local win = Window({
@@ -355,34 +352,12 @@ function qfloat.is_quickfix_open()
     return false
 end
 
-if vim.g.proj_enabled == nil or vim.g.proj_enabled == false then
-    qfloat.init()
+qfloat.init()
 
 
-    vim.api.nvim_set_keymap('n', '<M-q>', ':Qtoggle<CR>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('n', '[q', ':Qprev<CR>', { noremap = true, silent = true })
-    vim.api.nvim_set_keymap('n', ']q', ':Qnext<CR>', { noremap = true, silent = true })
     -- vim.api.nvim_set_keymap('n', '<F3>',      ':QrunCurrent<CR>', { noremap = true, silent = true })
     -- vim.api.nvim_set_keymap('n', '<F4>',      ':QrunFzf<CR>',     { noremap = true, silent = true })
 
-    vim.api.nvim_create_user_command("Qlink", qfloat.qlink, {})
-    vim.api.nvim_create_user_command("QlinkClose", qfloat.qclose_link, {})
-    vim.api.nvim_create_user_command("Qtoggle", qfloat.qtoggle, {})
-    vim.api.nvim_create_user_command("Qnext", qfloat.qnext, {})
-    vim.api.nvim_create_user_command("Qprev", qfloat.qprev, {})
-    vim.api.nvim_create_user_command("Qopen", qfloat.qopen, {})
-    vim.api.nvim_create_user_command("Qfile", qfloat.qfile, {})
-    vim.api.nvim_create_user_command("QrunFzf", qfloat.qrun_fzf, {})
-    vim.api.nvim_create_user_command("QrunCurrent", qfloat.qrun_current, {})
-    vim.api.nvim_create_user_command("QrunLast", qfloat.qrun_last, {})
-    vim.api.nvim_create_user_command("Qclose", qfloat.qclose, {})
-    vim.api.nvim_create_user_command("Qmessage", qfloat.qmessage, {})
-    vim.api.nvim_create_user_command("Qrun",
-        function(args)
-            qfloat.qrun(args)
-        end,
-        { nargs = '*' }
-    )
 
     vim.api.nvim_set_keymap('n', ',q', ':Qrun_current<CR>', { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', '<F6>', ':Qcheck<CR>', { noremap = true, silent = true })

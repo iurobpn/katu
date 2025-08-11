@@ -261,8 +261,5 @@ function M.expand_file(template_file)
     end
 end
 
-vim.api.nvim_create_user_command('TemplIns', function(opt)
-    M.expand_file(opt.args)
-end, {nargs='?'})
 
 return M
