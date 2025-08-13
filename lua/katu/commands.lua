@@ -99,7 +99,7 @@ vim.api.nvim_create_user_command("Messages",    'lua katu.nvim.ui.views.messages
 
 vim.api.nvim_create_user_command(
     'TemplIns', 
-    'lua require"katu.lua".expand_file("<args>")',
+    'lua require"katu.lua.templater".expand_file("<args>")',
     {
         nargs='?'
     }
