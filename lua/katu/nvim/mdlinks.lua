@@ -3,7 +3,6 @@ local M = {
 
 local function get_mdlink()
     local current_word = vim.fn.expand("<cWORD>")
-    print("Current word: " .. current_word)
     -- match againt the pattern for obsidian markdown links
     local pattern = "%[%[([^|]*).*%]%]"
     local match = string.match(current_word, pattern)
@@ -13,10 +12,10 @@ local function get_mdlink()
         -- io.popen("fd " .. file " -H 2>&1")
         -- use fd to search for the file in the current directory
         local handle = io.popen("fd " .. file .. " -H -tf 2>&1")
-        local res = handle:read("*a")
         if handle == nil then
             return ""
         end
+        local res = handle:read("*a")
         handle:close()
         return res
     else
@@ -28,12 +27,12 @@ end
 function M.open_mdlink()
     local link = get_mdlink()
     if link == "" then
-        vim.cmd('normal gf')
+        vim.cmd('normal! gf')
         return
     end
     files = require'katu.utils'.split(link, "\n")
     if #files == 0 then
-        vim.cmd('normal gf')
+        vim.cmd('normal! gf')
         return
     end
     if #files > 1 then
