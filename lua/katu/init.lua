@@ -1,7 +1,7 @@
 local katu = require"katu.config"
 
 -- setup keymaps and commands
-katu.setup()
+katu:setup()
 
 _G.katu = katu
 return katu

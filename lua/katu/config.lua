@@ -36,20 +36,19 @@ end
 ---@param options table Module config table. See |katu.options|.
 ---
 ---@usage `require("katu").setup()` (add `{}` with your |katu.options| table)
-function katu.setup(options)
-    katu.options = katu.defaults(options or {})
+function katu:setup(options)
+    self.options = self.defaults(options or {})
 
     require"katu.commands"
     require"katu.keymaps"
-    katu.color = require'katu.gruvbox-colors'
-    -- log.warn_deprecation(katu.options)
-    --
+    self.color = require'katu.gruvbox-colors'.palette
+
     local proj = require'katu.lua.project'
     _G.proj = proj
     vim.g.proj = proj
     vim.g.proj.init()
 
-    return katu.options
+    return self.options
 end
 
 return katu
